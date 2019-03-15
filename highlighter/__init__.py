@@ -23,17 +23,16 @@ def create_app():
         text = request.form['text']
         highlighted_text = highlight_text(text, search_text)
         result = {'text': text,
-                  'highlighted_text': Markup(highlighted_text),
-                  }
+                  'highlighted_text': Markup(highlighted_text), }
+
         return render_template(template_file_name, **result)
 
     def markup_text(text):
         """Markup given text.
         @:param text - string text to be marked
         @:return marked text, e.g., <mark>highlighted text</mark>."""
-        result = text
 
-        # TODO: add an implementation
+        result = '<mark>' + text + '</mark>'
 
         return result
 
@@ -41,9 +40,12 @@ def create_app():
         """Markup searched string in given text.
         @:param text - string text to be processed
         @:return marked text, e.g., "sample text <mark>highlighted part</mark> rest of the text"."""
-        result = text
 
-        # TODO: add an implementation
+        if expr in text:
+            new_str = markup_text(expr)
+            result = text.replace(expr, new_str)
+        else:
+            return False
 
         return result
 
