@@ -19,12 +19,10 @@ def create_app():
 
     @app.route('/', methods=['POST'])
     def process():
-        search_text = request.form['search']
-        text = request.form['text']
-        highlighted_text = highlight_text(text, search_text)
-        result = {'text': text,
-                  'highlighted_text': Markup(highlighted_text), }
-
+        search_text: str = request.form['search']
+        text: str = request.form['text']
+        highlighted_text: str = highlight_text(text, search_text)
+        result: dict = {'text': text, 'highlighted_text': Markup(highlighted_text)}
         return render_template(template_file_name, **result)
 
     def markup_text(text):
@@ -36,16 +34,16 @@ def create_app():
 
         return result
 
-    def highlight_text(text, expr):
+    def highlight_text(text: str, expr: str):
         """Markup searched string in given text.
         @:param text - string text to be processed
         @:return marked text, e.g., "sample text <mark>highlighted part</mark> rest of the text"."""
 
         if expr in text:
-            new_str = markup_text(expr)
+            new_str: str = markup_text(expr)
             result = text.replace(expr, new_str)
         else:
-            return False
+            return "Text no found"
 
         return result
 

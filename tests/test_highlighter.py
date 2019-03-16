@@ -29,7 +29,5 @@ class HighlightTest(unittest.TestCase):
 
         response = self.app.post('/', data={'search': self.search_text,
                                             'text': self.text})
-        print("Result: ")
-        print(response.data)
 
         self.assertIn(self.highlighted, response.data)
